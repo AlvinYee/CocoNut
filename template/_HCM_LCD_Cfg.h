@@ -25,48 +25,48 @@ mqxml = MqXmlParser(xmlFile)
 /* CAUTION: to simplify design, application level cfg is same as msg level cfg as logic condition */
 #define LCD_CND_WHEEL_SPEED_1_CFG                       I2CCAN_RX_MSG_WHEEL_SPEED_1_CFG
 #define HCM_LCD_COND_QUALIFICATION_TIME		            LCD_CND_WHEEL_SPEED_1_QUALIFICATION_TIME_CFG	/* compatibility with GEN3 platform project */
-#define LCD_CND_WHEEL_SPEED_1_QUALIFICATION_CFG    		\
+#define LCD_CND_WHEEL_SPEED_1_QUALIFICATION_CFG \
 /*[[[cog
  cog.out(mqxml.get_msg_element('wheelSpeed_1', 'qualificationCheck'))
  ]]]*/
  //[[[end]]]
-#define LCD_CND_WHEEL_SPEED_1_QUALIFICATION_TIME_CFG    		\
+#define LCD_CND_WHEEL_SPEED_1_QUALIFICATION_TIME_CFG \
 /*[[[cog
  cog.out(mqxml.get_msg_element('wheelSpeed_1', 'qualificationTime'))
  ]]]*/
  /* qualification time of the lock conditions: 2*410=820ms 410u */
  //[[[end]]]
 #define LCD_CND_WHEEL_SPEED_2_CFG                       I2CCAN_RX_MSG_WHEEL_SPEED_2_CFG
-#define LCD_CND_WHEEL_SPEED_2_QUALIFICATION_CFG    		\
+#define LCD_CND_WHEEL_SPEED_2_QUALIFICATION_CFG \
 /*[[[cog
  cog.out(mqxml.get_msg_element('wheelSpeed_2', 'qualificationCheck'))
  ]]]*/
  //[[[end]]]
-#define LCD_CND_WHEEL_SPEED_2_QUALIFICATION_TIME_CFG    		\
+#define LCD_CND_WHEEL_SPEED_2_QUALIFICATION_TIME_CFG \
 /*[[[cog
  cog.out(mqxml.get_msg_element('wheelSpeed_2', 'qualificationTime'))
  ]]]*/
  /* qualification time of the lock conditions: 2*410=820ms 410u */
  //[[[end]]]
 #define LCD_CND_VEHICLE_SPEED_CFG 	                    I2CCAN_RX_MSG_VEHICLE_SPEED_CFG
-#define LCD_CND_VEHICLE_SPEED_QUALIFICATION_CFG    		\
+#define LCD_CND_VEHICLE_SPEED_QUALIFICATION_CFG \
 /*[[[cog
  cog.out(mqxml.get_msg_element('vehicleSpeed', 'qualificationCheck'))
  ]]]*/
  //[[[end]]]
-#define LCD_CND_VEHICLE_SPEED_QUALIFICATION_TIME_CFG    		\
+#define LCD_CND_VEHICLE_SPEED_QUALIFICATION_TIME_CFG \
 /*[[[cog
  cog.out(mqxml.get_msg_element('vehicleSpeed', 'qualificationTime'))
  ]]]*/
  /* qualification time of the lock conditions: 2*410=820ms 410u */
  //[[[end]]]
 #define LCD_CND_POWER_MODE_CFG					        I2CCAN_RX_MSG_POWER_MODE_CFG
-#define LCD_CND_POWER_MODE_QUALIFICATION_CFG    		\
+#define LCD_CND_POWER_MODE_QUALIFICATION_CFG \
 /*[[[cog
  cog.out(mqxml.get_msg_element('powerMode', 'qualificationCheck'))
  ]]]*/
  //[[[end]]]
-#define LCD_CND_POWER_MODE_QUALIFICATION_TIME_CFG    		\
+#define LCD_CND_POWER_MODE_QUALIFICATION_TIME_CFG \
 /*[[[cog
  cog.out(mqxml.get_msg_element('powerMode', 'qualificationTime'))
  ]]]*/
