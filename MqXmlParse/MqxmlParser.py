@@ -34,52 +34,48 @@ class MqXmlParser(object):
             try:
                 if msg.getElementsByTagName('predefinedname')[0].firstChild.nodeValue == predefine_msg_name:
                     for signal in msg.getElementsByTagName('signals')[0].getElementsByTagName('signal'):
-                        if signal.getElementsByTagName('predefinedName')[0].firstChild.nodeValue == predefine_signal_name:
+                        if signal.getElementsByTagName('predefinedName')[
+                            0].firstChild.nodeValue == predefine_signal_name:
                             return signal.getElementsByTagName(element)[0].firstChild.nodeValue
             except AttributeError or IndexError:
                 print('tag name not defined')
 
 
-if __name__ == '__main__':
+def generate_template():
     mqxml = MqXmlParser(xmlFile)
-    print(mqxml.get_msg_element('wheelSpeed_1', 'predefinedname'))
-    print(mqxml.get_msg_element('wheelSpeed_1', 'actualName'))
-    print(mqxml.get_msg_element('wheelSpeed_1', 'InitValue'))
-    print(mqxml.get_msg_element('wheelSpeed_1', 'InitValue'))
-    print(mqxml.get_msg_element('wheelSpeed_1', 'InitValue'))
-    print(mqxml.get_msg_element('wheelSpeed_1', 'InitValue'))
-    print(mqxml.get_msg_element('wheelSpeed_1', 'InitValue'))
-    print(mqxml.get_msg_element('wheelSpeed_1', 'InitValue'))
-    print(mqxml.get_msg_element('wheelSpeed_1', 'InitValue'))
-    print(mqxml.get_msg_element('wheelSpeed_1', 'InitValue'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
-    print(mqxml.get_signal_element('wheelSpeed_1', 'WHEEL_SPEED_1_CRC', 'enable'))
+    for msg in mqxml.xmlDoc.getElementsByTagName('I2CMsg'):
+        for signal in msg.getElementsByTagName('signals')[0].getElementsByTagName('signal'):
+            print("#if I2CCAN_RX_SIG_{0}_CFG > FALSE".format(
+                signal.getElementsByTagName('predefinedName')[0].firstChild.nodeValue))
+            print('#define ' + 'HCM_LCD_' + signal.getElementsByTagName('predefinedName')[
+                0].firstChild.nodeValue + '_INIT' + " \\")
+            print('/*[[[cog')
+            print("cog.out(mqxml.get_signal_element('{0}','{1}', 'initValue'))".format(
+                msg.getElementsByTagName('predefinedname')[0].firstChild.nodeValue,
+                signal.getElementsByTagName('predefinedName')[0].firstChild.nodeValue))
+            print(']]]*/')
+            print('//[[[end]]]')
+            print('#define ' + 'HCM_LCD_' + signal.getElementsByTagName('predefinedName')[
+                0].firstChild.nodeValue + '_DEFAULT' + " \\")
+            print('/*[[[cog')
+            print("cog.out(mqxml.get_signal_element('{0}','{1}', 'defaultValue'))".format(
+                msg.getElementsByTagName('predefinedname')[0].firstChild.nodeValue,
+                signal.getElementsByTagName('predefinedName')[0].firstChild.nodeValue))
+            print(']]]*/')
+            print('//[[[end]]]')
+            print("#endif")
+    print('--- generating signal access macro mappting ---')
+    for msg in mqxml.xmlDoc.getElementsByTagName('I2CMsg'):
+        for signal in msg.getElementsByTagName('signals')[0].getElementsByTagName('signal'):
+            print('#define ' + 'I2CCAN_RX_SIG_' + signal.getElementsByTagName('predefinedName')[
+                0].firstChild.nodeValue + " \\")
+            print('/*[[[cog')
+            print("cog.out('b_'+mqxml.get_signal_element('{0}','{1}', 'actualName')+'_b')".format(
+                msg.getElementsByTagName('predefinedname')[0].firstChild.nodeValue,
+                signal.getElementsByTagName('predefinedName')[0].firstChild.nodeValue))
+            print(']]]*/')
+            print('//[[[end]]]')
+
+if __name__ == '__main__':
+    generate_template()
+
